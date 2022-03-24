@@ -1,0 +1,63 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int lotto();
+int sort(int* arr, int num);
+int show(int* arr, int num);
+
+int main()
+{
+	srand(time(NULL));
+	for (int i = 0; i < 5; i++)
+	{
+		lotto();
+	}
+}
+
+int lotto()
+{
+	int num = 0;
+	num = rand() % 6 + 1;
+	int* arr = (int*)malloc(sizeof(int) * num);
+
+	for (int j = 0; j < num; j++)
+	{
+		arr[j] = rand() % 6 + 1;
+		for (int n = 0; n < j; n++)
+		{
+			if (arr[j] == arr[n])
+			{
+				j--;
+				break;
+			}
+		}
+	}
+	sort(arr, num);
+	show(arr, num);
+	free(arr);
+}
+int sort(int* arr, int num)
+{
+	for (int i = 0; i < num; i++)
+	{
+		for (int j = i + 1; j < num; j++)
+		{
+			if (arr[i] > arr[j])
+			{
+				int temp = arr[i];
+				arr[i] = arr[j];
+				arr[j] = temp;
+			}
+		}
+	}
+}
+
+int show(int* arr, int num)
+{
+	for (int i = 0; i < num; i++)
+	{
+		printf("%d  ", arr[i]);
+	}
+	printf("\n");
+}

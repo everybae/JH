@@ -1,0 +1,150 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <Windows.h>
+
+#define MAP_SIZE 10
+#define UP 1
+#define DOWN 2
+#define LEFT 3
+#define RIGHT 4
+
+void gotoxy(int x, int y);
+
+int main()
+{
+	int map[MAP_SIZE][MAP_SIZE] = { {1,1,1,1,1,1,1,1,1,1},
+									{1,2,0,0,0,0,0,0,0,1}, 
+									{1,0,1,1,0,1,1,1,1,1},
+									{1,0,0,0,0,0,0,0,0,1}, 
+									{1,0,1,0,0,1,0,1,1,1}, 
+									{1,0,0,0,1,0,0,0,0,1}, 
+									{1,1,0,0,0,0,0,1,1,1}, 
+									{1,1,0,0,0,0,0,1,1,1}, 
+									{1,1,0,0,1,1,0,0,3,1}, 
+									{1,1,1,1,1,1,1,1,1,1}   };
+	int i=1, j=1;                    // 벌레의 위치 좌표
+	int temp;
+	int num = 0;
+	srand(time(NULL));
+
+
+
+	while (1)
+	{
+		gotoxy(0, 0);
+		for (int n = 0; n < MAP_SIZE; n++)
+		{
+			for (int m = 0; m < MAP_SIZE; m++)
+			{
+				if (map[n][m] == 0)
+				{
+					printf("　");
+				}
+				else if (map[n][m] == 1)
+				{
+					printf("■");
+				}
+				else if (map[n][m] == 2)
+				{
+					printf("＠");
+				}
+				else if (map[n][m] == 3)
+				{
+					printf("★");
+				}
+			}
+			printf("\n");
+		} // 출력해주기
+
+
+		num = rand() % 4 + 1;
+		if (num == UP)
+		{
+			if (map[i - 1][j] == 0)
+			{
+				temp = map[i][j];
+				map[i][j] = map[i - 1][j];
+				map[i - 1][j] = temp;
+				i--;
+			}
+			else if (map[i - 1][j] == 1)
+			{
+				//return;
+			}
+			else if (map[i - 1][j] == 3)
+			{
+				printf("찾았습니다\n");
+				break;
+			}
+		}
+			else if (num == DOWN)
+			{
+				if (map[i + 1][j] == 0)
+				{
+					temp = map[i][j];
+					map[i][j] = map[i + 1][j];
+					map[i + 1][j] = temp;
+					i++;
+				}
+				else if (map[i + 1][j] == 1)
+				{
+					//return;
+				}
+				else if (map[i + 1][j] == 3)
+				{
+					printf("찾았습니다\n");
+					break;
+				}
+			}
+			else if (num == LEFT)
+			{
+				if (map[i][j - 1] == 0)
+				{
+					temp = map[i][j];
+					map[i][j] = map[i][j - 1];
+					map[i][j - 1] = temp;
+					j--;
+				}
+				else if (map[i][j - 1] == 1)
+				{
+					//return;
+				}
+				else if (map[i][j - 1] == 3)
+				{
+					printf("찾았습니다\n");
+					break;
+				}
+			}
+			else if (num == RIGHT)
+			{
+				if (map[i][j + 1] == 0)
+				{
+					temp = map[i][j];
+					map[i][j] = map[i][j + 1];
+					map[i][j + 1] = temp;
+					j++;
+				}
+				else if (map[i][j + 1] == 1)
+				{
+					//return;
+				}
+				else if (map[i][j + 1] == 3)
+				{
+					printf("찾았습니다\n");
+					break;
+				}
+			}
+		Sleep(10);
+	}
+}
+
+
+void gotoxy(int x, int y)
+{
+	COORD Cur;
+	Cur.X = x;
+	Cur.Y = y;
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Cur);
+}
+
